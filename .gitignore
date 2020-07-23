@@ -1,2 +1,6 @@
 # Emacs backup files
 *~
+
+# C build files
+*.o
+*.d
