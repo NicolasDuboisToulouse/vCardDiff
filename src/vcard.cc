@@ -4,9 +4,9 @@
 
 void vcard::vcard::dump() const
 {
-  DEBUG("BEGIN::VCARD");
+  MSG("BEGIN:VCARD");
   for(auto i = _fields.begin(); i != _fields.end(); i++) {
-    DEBUG(i->first << ":" << i->second);
+    MSG(i->first << ":" << i->second);
   }
-  DEBUG("END::VCARD");
+  MSG("END:VCARD");
 }

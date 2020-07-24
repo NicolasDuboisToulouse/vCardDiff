@@ -1,7 +1,7 @@
 BEGIN:VCARD
 VERSION:3.0
 TEL;TYPE=cell:+33685465425
-TEL;TYPE=home:+33456465467
+TEL;TYPE=home:03 45 64 65 47
 N:Gaston;Christian;;;
 
 FN:Christian Gaston
@@ -30,3 +30,4 @@ DUMMY:foo
 
 
 END:VCARD
+

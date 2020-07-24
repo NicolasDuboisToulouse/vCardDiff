@@ -72,8 +72,6 @@ void vcard::address_book::append_field(vcard& card, std::string line)
   std::string key = line.substr(0, pos);
   std::string value = line.substr(pos + 1);
 
-  if (value.find(':') != std::string::npos) throw exception("Unexpected line with several ':'");
-
   card.insert(key, value);
 }
 

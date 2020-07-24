@@ -10,6 +10,7 @@ namespace vcard {
 
   // Basic messages wrappers
 # define _VCARD_LOGSTREAM std::cerr
+# define MSG(m)   do { _VCARD_LOGSTREAM << m << std::endl; } while (0)
 # define ERROR(m) do { _VCARD_LOGSTREAM << m << std::endl; } while (0)
 # define DEBUG(m) do { _VCARD_LOGSTREAM << __FILE__ << ":" << __LINE__ << " " << m << std::endl; } while (0)
 
