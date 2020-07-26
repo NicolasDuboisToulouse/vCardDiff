@@ -3,7 +3,7 @@
 //
 #include "error.hh"
 #include "address_book.hh"
-#include "getline_regardless_eol.hh"
+#include "string_tools.hh"
 #include <fstream>
 #include <string.h>
 
@@ -29,6 +29,16 @@ vcard::address_book vcard::address_book::import(std::string filepath)
     while(!getline_regardless_eol(fs, line).eof() || field_line.empty() == false)
     {
       ++line_nb;
+
+      // Merge Multi-lines quoted printable strings - RFC2045 6.7
+      if (find_no_case(line, "QUOTED-PRINTABLE")) {
+        while (line.back() == '=') {
+          ++line_nb;
+          std::string rest;
+          if (getline_regardless_eol(fs, rest).eof()) throw exception("End of file reached while reading QUOTED-PRINTABLE string.");
+          line.erase(line.length() - 1) += rest;
+        }
+      }
 
       // Unfolding - RFC6350 3.2
       if (line[0] == ' ' || line[0] == '\t') {

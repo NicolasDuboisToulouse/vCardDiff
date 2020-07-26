@@ -1,11 +1,15 @@
 //
-// like std::getline but don't care about eol (\r\n)
+// stream/string tools
 //
-#include "getline_regardless_eol.hh"
+#include "string_tools.hh"
+#include <algorithm>
 
+//
+// Read a line regadless End Of Line (\r \n)
+// source: https://stackoverflow.com/questions/6089231/getting-std-ifstream-to-handle-lf-cr-and-crlf/6089413#6089413
+//
 std::istream& vcard::getline_regardless_eol(std::istream& is, std::string& str)
 {
-  // Code from https://stackoverflow.com/questions/6089231/getting-std-ifstream-to-handle-lf-cr-and-crlf/6089413#6089413
 
   str.clear();
 
@@ -36,4 +40,19 @@ std::istream& vcard::getline_regardless_eol(std::istream& is, std::string& str)
       str += (char)c;
     }
   }
+}
+
+
+//
+// Look for needle in haystack regadless case
+// source: https://stackoverflow.com/questions/3152241/case-insensitive-stdstring-find/19839371#19839371
+//
+bool vcard::find_no_case(std::string haystack, std::string needle)
+{
+  auto it = std::search(
+    haystack.begin(), haystack.end(),
+    needle.begin(),   needle.end(),
+    [](char ch1, char ch2) { return std::toupper(ch1) == std::toupper(ch2); }
+  );
+  return (it != haystack.end());
 }

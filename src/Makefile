@@ -8,7 +8,7 @@ endif
 
 
 TARGET=parser$(BIN_EXTENSION)
-OBJS=getline_regardless_eol.o vcard.o address_book.o parser.o
+OBJS=string_tools.o vcard.o address_book.o parser.o
 
 all:$(TARGET)
 
