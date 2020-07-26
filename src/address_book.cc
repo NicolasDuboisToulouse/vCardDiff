@@ -58,7 +58,12 @@ vcard::address_book vcard::address_book::import(std::string filepath)
           } else if (inside_vard == false) {
             throw exception("Undexpected content outside a VCARD.");
           } else {
-            append_field(card, field_line);
+            // Parse one field
+            size_t pos = line.find(':');
+            if (pos == std::string::npos) throw exception("Unexpected line without ':'");
+            std::string key = line.substr(0, pos);
+            std::string value = line.substr(pos + 1);
+            card.insert(key, value);
           }
         }
         field_line = line;
@@ -69,20 +74,6 @@ vcard::address_book vcard::address_book::import(std::string filepath)
   }
 
   return *book;
-}
-
-//
-// Parse a vcard line and append it to card
-//
-void vcard::address_book::append_field(vcard& card, std::string line)
-{
-  size_t pos = line.find(':');
-  if (pos == std::string::npos) throw exception("Unexpected line without ':'");
-
-  std::string key = line.substr(0, pos);
-  std::string value = line.substr(pos + 1);
-
-  card.insert(key, value);
 }
 
 // Format to stream

@@ -17,8 +17,6 @@ namespace vcard {
     friend std::ostream& operator<<(std::ostream& os, const address_book& v);
 
   protected:
-    static void append_field(vcard& card, std::string field_line);
-
     typedef std::list<vcard> book_t;
     book_t _book;
   };
