@@ -14,6 +14,6 @@ int main(int argc, char** argv)
 
   vcard::address_book my_book = vcard::address_book::import(argv[1]);
 
-  my_book.dump();
+  std::cout << my_book;
   return 0;
 }

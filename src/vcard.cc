@@ -1,12 +1,17 @@
 #include "error.hh"
 #include "vcard.hh"
 
-
-void vcard::vcard::dump() const
+// Format one field
+std::ostream& vcard::operator<<(std::ostream& os, const vcard::field_t& f)
 {
-  MSG("BEGIN:VCARD");
-  for(auto i = _fields.begin(); i != _fields.end(); i++) {
-    MSG(i->first << ":" << i->second);
-  }
-  MSG("END:VCARD");
+  return (os << f.first << ":" << f.second);
+}
+
+// Format vcard
+std::ostream& vcard::operator<<(std::ostream& os, const vcard& v)
+{
+  os << "BEGIN:VCARD" << std::endl;
+  for(auto i = v._fields.begin(); i != v._fields.end(); i++) os << *i << std::endl;
+  os << "END:VCARD" << std::endl;
+  return os;
 }

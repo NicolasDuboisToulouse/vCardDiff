@@ -85,13 +85,9 @@ void vcard::address_book::append_field(vcard& card, std::string line)
   card.insert(key, value);
 }
 
-
-//
-// Debug
-//
-void vcard::address_book::dump() const
+// Format to stream
+std::ostream& vcard::operator<<(std::ostream& os, const address_book& ab)
 {
-  for(auto i = _book.begin(); i != _book.end(); i++) {
-    i->dump();
-  }
+  for(auto i = ab._book.begin(); i != ab._book.end(); i++) os << *i;
+  return os;
 }

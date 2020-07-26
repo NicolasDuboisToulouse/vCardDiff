@@ -17,12 +17,16 @@ namespace vcard {
     inline void clear() { _fields.clear(); }
     inline void insert(const key_t& key, const value_t& value) { _fields.insert(field_t(key, value)); }
 
-    // Debug
-    void dump() const;
+    // format to stream
+    friend std::ostream& operator<<(std::ostream& os, const field_t& v);
+    friend std::ostream& operator<<(std::ostream& os, const vcard& v);
 
     protected:
     fields_t _fields;
   };
 
+  // Define friend function in vcard namespace
+  std::ostream& operator<<(std::ostream& os, const vcard::field_t& v);
+  std::ostream& operator<<(std::ostream& os, const vcard& v);
 }
 

@@ -13,8 +13,8 @@ namespace vcard {
     // Throw an exception on unrecoverable parse error
     static address_book import(std::string filepath);
 
-    // Debug
-    void dump() const;
+    // format to stream
+    friend std::ostream& operator<<(std::ostream& os, const address_book& v);
 
   protected:
     static void append_field(vcard& card, std::string field_line);
@@ -23,5 +23,7 @@ namespace vcard {
     book_t _book;
   };
 
+  // Define friend function in vcard namespace
+  std::ostream& operator<<(std::ostream& os, const address_book& ab);
 }
 
