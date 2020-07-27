@@ -9,6 +9,9 @@ namespace vcard {
 
   struct vcard
   {
+    // set to true to parse encoding while formatting to stream
+    static bool pretty_print;
+
     typedef std::string                      key_t;
     typedef std::string                      value_t;
     typedef std::pair<const key_t, value_t>  field_t;

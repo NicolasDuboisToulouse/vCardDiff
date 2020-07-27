@@ -10,4 +10,7 @@ namespace vcard {
 
   // Look for needle in haystack regadless case
   bool find_no_case(std::string haystack, std::string needle);
+
+  // decode 'quoted-printable' string
+  std::string unquoted_printable(std::string quoted);
 }

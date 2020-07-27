@@ -2,6 +2,7 @@
 // stream/string tools
 //
 #include "string_tools.hh"
+#include "error.hh"
 #include <algorithm>
 
 //
@@ -55,4 +56,26 @@ bool vcard::find_no_case(std::string haystack, std::string needle)
     [](char ch1, char ch2) { return std::toupper(ch1) == std::toupper(ch2); }
   );
   return (it != haystack.end());
+}
+
+
+std::string vcard::unquoted_printable(std::string quoted)
+{
+  std::string result;
+
+  for (std::string::size_type pos = 0;
+       pos < quoted.length();
+       pos++)
+  {
+    if (quoted[pos] == '=') {
+      if (pos + 2 >= quoted.length()) throw exception(strize() << "Unexpected eol while reading quoted-printable '" << quoted << "'");
+      auto hex_char = [](char hex) { hex = std::toupper(hex); return (hex > '9') ?  hex - 'A' + 10 : hex - '0'; };
+      result += (hex_char(quoted[pos + 1]) << 4) + hex_char(quoted[pos + 2]);
+      pos += 2;
+    } else {
+      result += quoted[pos];
+    }
+  }
+
+  return result;
 }
