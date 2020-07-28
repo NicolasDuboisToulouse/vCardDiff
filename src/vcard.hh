@@ -9,8 +9,8 @@ namespace vcard {
 
   struct vcard
   {
-    // set to true to parse encoding while formatting to stream
-    static bool pretty_print;
+    static bool print_pretty;     // set to true to parse encoding while formatting to stream
+    static bool print_folding;    // set to true to fold base64 strings
 
     typedef std::string                      key_t;
     typedef std::string                      value_t;

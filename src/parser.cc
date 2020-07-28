@@ -7,6 +7,7 @@ void usage(std::string software)
   MSG("  Test the parsr: Parse given file and print it.");
   MSG("");
   MSG("  -p          Pretty print. Parse quoted-printable strings.");
+  MSG("  -f          Folding print. Fold base64-encoded string (not impmlemented for other strings).");
   MSG("  <file.vcf>  File to parse.");
 }
 
@@ -27,7 +28,10 @@ int main(int argc, char** argv)
       return 0;
     }
     else if (arg == "-p") {
-      vcard::vcard::pretty_print = true;
+      vcard::vcard::print_pretty = true;
+    }
+    else if (arg == "-f") {
+      vcard::vcard::print_folding = true;
     }
     else if (arg[0] == '-') {
       ERROR("Unkown option '" << arg << "'");
