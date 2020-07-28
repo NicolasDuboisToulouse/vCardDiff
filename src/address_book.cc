@@ -59,10 +59,10 @@ vcard::address_book vcard::address_book::import(std::string filepath)
             throw exception("Undexpected content outside a VCARD.");
           } else {
             // Parse one field
-            size_t pos = line.find(':');
+            size_t pos = field_line.find(':');
             if (pos == std::string::npos) throw exception("Unexpected line without ':'");
-            std::string key = line.substr(0, pos);
-            std::string value = line.substr(pos + 1);
+            std::string key = field_line.substr(0, pos);
+            std::string value = field_line.substr(pos + 1);
             card.insert(key, value);
           }
         }
