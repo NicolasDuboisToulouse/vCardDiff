@@ -4,3 +4,8 @@
 # C build files
 *.o
 *.d
+*.a
+*.exe
+src/diff_single
+src/parser
+

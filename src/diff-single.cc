@@ -3,8 +3,9 @@
 
 void usage(std::string software)
 {
-  MSG("USAGE: " << software << " [-p|-f] <file.vcf>");
-  MSG("  Test the parser: Parse given file and print it.");
+  MSG("USAGE: " << software << " [-p|-f] <file_left.vcf> <file_right.vcf>");
+  MSG("  Compare fisrt <file_left.vcf> vcard to first <file_right.vcf> vcard.");
+  MSG("  For testing purpose");
   MSG("");
   MSG("  -p          Pretty print. Parse quoted-printable strings.");
   MSG("  -f          Folding print. Fold base64-encoded string (not impmlemented for other strings).");
@@ -18,7 +19,8 @@ int main(int argc, char** argv)
   size_t last = sofware.find_last_of("/\\");
   if (last != std::string::npos) sofware = sofware.substr(last + 1);
 
-  std::string file_vcf;
+  std::string left_vcf;
+  std::string right_vcf;
   for (int argn = 1; argn < argc; argn++)
   {
     std::string arg(argv[argn]);
@@ -38,22 +40,28 @@ int main(int argc, char** argv)
       return 1;
     }
     else {
-      if (file_vcf.empty() == false) {
+      if (left_vcf.empty()) {
+        left_vcf = arg;
+      } else if (right_vcf.empty()) {
+        right_vcf = arg;
+      } else {
         ERROR("Error on command line.");
         return 1;
       }
-      file_vcf = arg;
     }
   }
 
-  if (file_vcf.empty()) {
+  if (left_vcf.empty() || right_vcf.empty()) {
     usage(sofware);
     return 1;
   }
 
 
-  vcard::address_book my_book = vcard::address_book::import(file_vcf);
-  std::cout << my_book;
+  vcard::address_book left_book = vcard::address_book::import(left_vcf);
+  std::cout << left_book;
+
+  vcard::address_book right_book = vcard::address_book::import(right_vcf);
+  std::cout << right_book;
 
   return 0;
 }

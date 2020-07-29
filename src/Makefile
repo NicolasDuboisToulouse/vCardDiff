@@ -7,20 +7,36 @@ else
 endif
 
 
-TARGET=parser$(BIN_EXTENSION)
-OBJS=string_tools.o vcard.o address_book.o parser.o
+TARGETS = parser$(BIN_EXTENSION) diff-single$(BIN_EXTENSION)
 
-all:$(TARGET)
+VCARD_OBJS  = string_tools.o vcard.o address_book.o
 
-parser$(BIN_EXTENSION): $(OBJS)
-	g++ -Wall -Werror -o $@ $(OBJS)
+CFLAGS  = -Wall -Werror -MMD
+LDFLAGS = -Wall -Werror -static
+
+
+all:$(TARGETS)
+
+
+parser$(BIN_EXTENSION): parser.o libvcard.a
+	g++ $(LDFLAGS) -o $@ parser.o libvcard.a
+
+diff-single$(BIN_EXTENSION): diff-single.o libvcard.a
+	g++ $(LDFLAGS) -o $@ diff-single.o libvcard.a
+
+
+libvcard.a: $(VCARD_OBJS)
+	rm -f $@
+	ar -cru $@ $(VCARD_OBJS)
+
 
 %.o: %.cc
-	g++ -Wall -Werror -MMD -c $< -o $@
+	g++ $(CFLAGS) -c $< -o $@
 
 
 clean:
-	rm -f *~ $(TARGET) $(OBJS) *.d
+	rm -f *~ $(TARGETS) libvcard.a *.o *.d
+
 
 -include *.d
 
