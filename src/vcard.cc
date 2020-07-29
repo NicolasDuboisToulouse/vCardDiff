@@ -1,6 +1,8 @@
 #include "error.hh"
 #include "string_tools.hh"
 #include "vcard.hh"
+#include <algorithm>
+#include <list>
 
 // Insert an element sorted both by key and value
 void vcard::vcard::insert(const key_t& key, const value_t& value)
@@ -19,6 +21,8 @@ void vcard::vcard::insert(const key_t& key, const value_t& value)
 // Display the diff
 void vcard::vcard::show_diff(const vcard& right_vcard) const
 {
+  std::cout << "=== " << id() << std::endl;
+
   fields_t left = _fields;
   fields_t right = right_vcard._fields;
 
@@ -38,6 +42,31 @@ void vcard::vcard::show_diff(const vcard& right_vcard) const
       iright++;
     }
   }
+}
+
+// Identify vcard
+std::string vcard::vcard::id() const
+{
+  std::string result;
+
+  std::list<std::string> keys = { "FN", "N", "NICKNAME" };
+  for (auto ik = keys.begin(); ik != keys.end(); ik++) {
+    fields_t::const_iterator ifield = _fields.find(*ik);
+    if (ifield != _fields.end()) {
+      result = ifield->second;
+      std::replace(result.begin(), result.end(), ';', ' ');
+      break;
+    }
+  }
+
+  fields_t::const_iterator ifield = _fields.find("UID");
+  if (ifield != _fields.end()) {
+    if (result.empty() == false) result += " UID:";
+    result += ifield->second;
+  }
+
+  if (result.empty() == false) return result;
+  return "???";
 }
 
 

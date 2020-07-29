@@ -7,7 +7,7 @@ void usage(std::string software)
   MSG("  Compare fisrt <file_left.vcf> vcard to first <file_right.vcf> vcard.");
   MSG("  For testing purpose");
   MSG("");
-  MSG("  -p          Pretty print. Parse quoted-printable strings.");
+  MSG("  -p          Pretty print. Parse quoted-printable strings and some other stuff.");
   MSG("  -f          Folding print. Fold base64-encoded string (not impmlemented for other strings).");
   MSG("  <file.vcf>  File to parse.");
 }

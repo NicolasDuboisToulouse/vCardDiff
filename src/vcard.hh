@@ -22,6 +22,9 @@ namespace vcard {
     // Insert an element sorted both by key and value
     void insert(const key_t& key, const value_t& value);
 
+    // Try to build a string to identify the vcard (for display purpose)
+    std::string id() const;
+
     // Display diff with another vcard
     void show_diff(const vcard& right_vcard) const;
 

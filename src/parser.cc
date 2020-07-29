@@ -6,7 +6,7 @@ void usage(std::string software)
   MSG("USAGE: " << software << " [-p|-f] <file.vcf>");
   MSG("  Test the parser: Parse given file and print it.");
   MSG("");
-  MSG("  -p          Pretty print. Parse quoted-printable strings.");
+  MSG("  -p          Pretty print. Parse quoted-printable strings and some other stuff.");
   MSG("  -f          Folding print. Fold base64-encoded string (not impmlemented for other strings).");
   MSG("  <file.vcf>  File to parse.");
 }

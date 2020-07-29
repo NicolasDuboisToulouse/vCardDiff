@@ -96,6 +96,11 @@ vcard::address_book vcard::address_book::import(std::string filepath)
 // Format to stream
 std::ostream& vcard::operator<<(std::ostream& os, const address_book& ab)
 {
+  if (vcard::vcard::print_pretty) {
+    if (ab._filepath.empty() == false) {
+      os << "+++ ADDRESS_BOOK:" << ab._filepath << std::endl;
+    }
+  }
   for(auto i = ab._book.begin(); i != ab._book.end(); i++) os << *i;
   return os;
 }
