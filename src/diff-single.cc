@@ -58,10 +58,9 @@ int main(int argc, char** argv)
 
 
   vcard::address_book left_book = vcard::address_book::import(left_vcf);
-  std::cout << left_book;
-
   vcard::address_book right_book = vcard::address_book::import(right_vcf);
-  std::cout << right_book;
+
+  left_book.first().show_diff(right_book.first());
 
   return 0;
 }

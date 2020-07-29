@@ -18,7 +18,12 @@ namespace vcard {
     typedef std::multimap<key_t, value_t>    fields_t;
 
     inline void clear() { _fields.clear(); }
-    inline void insert(const key_t& key, const value_t& value) { _fields.insert(field_t(key, value)); }
+
+    // Insert an element sorted both by key and value
+    void insert(const key_t& key, const value_t& value);
+
+    // Display diff with another vcard
+    void show_diff(const vcard& right_vcard) const;
 
     // format to stream
     friend std::ostream& operator<<(std::ostream& os, const field_t& v);

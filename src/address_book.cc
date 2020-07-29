@@ -9,11 +9,28 @@
 
 
 //
+// Return the fist element
+//
+const vcard::vcard& vcard::address_book::first()
+{
+  if (_book.empty()) {
+    if (_filepath.empty()) {
+      throw exception("Address book is empty. (no first element).");
+    } else {
+      throw exception(strize() << "Address book '" << _filepath << "' is empty. (no first element).");
+    }
+  }
+
+  return *_book.begin();
+}
+
+//
 // Create a new address_book from vcard filepath
 //
 vcard::address_book vcard::address_book::import(std::string filepath)
 {
   address_book* book = new address_book();
+  book->_filepath = filepath;
 
   std::ifstream fs(filepath);
   if (!fs) throw exception(strize() << "Failed to read file '" << filepath << "': " << strerror(errno));
