@@ -1,8 +1,10 @@
 #include "error.hh"
 #include "string_tools.hh"
 #include "vcard.hh"
+#include "diff.hh"
 #include <algorithm>
 #include <list>
+
 
 // Insert an element sorted both by key and value
 void vcard::vcard::insert(const key_t& key, const value_t& value)
@@ -21,7 +23,7 @@ void vcard::vcard::insert(const key_t& key, const value_t& value)
 // Display the diff
 void vcard::vcard::show_diff(const vcard& right_vcard) const
 {
-  std::cout << "=== " << id() << std::endl;
+  diff::stream() << diff::header << id() << diff::endl;
 
   fields_t left = _fields;
   fields_t right = right_vcard._fields;
@@ -30,13 +32,13 @@ void vcard::vcard::show_diff(const vcard& right_vcard) const
   fields_t::iterator iright = right.begin();
   while (ileft != left.end() && iright != right.end()) {
     if (*ileft < *iright) {
-      std::cout << "- " << *ileft << std::endl;
+      diff::stream() << diff::left << *ileft << diff::endl;
       ileft++;
     } else {
       if ( *iright < *ileft) {
-        std::cout << "+ " << *iright << std::endl;
+        diff::stream() << diff::right << *iright << diff::endl;
       } else {
-        std::cout << "  " << *ileft << std::endl;
+        diff::stream() << diff::same << *ileft << diff::endl;
         ileft++;
       }
       iright++;

@@ -9,7 +9,7 @@ endif
 
 TARGETS = parser$(BIN_EXTENSION) diff-single$(BIN_EXTENSION)
 
-VCARD_OBJS  = string_tools.o vcard.o address_book.o
+VCARD_OBJS = string_tools.o vcard.o address_book.o diff.o
 
 CFLAGS  = -Wall -Werror -MMD
 LDFLAGS = -Wall -Werror -static
