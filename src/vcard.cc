@@ -23,7 +23,7 @@ void vcard::vcard::insert(const key_t& key, const value_t& value)
 // Display the diff
 void vcard::vcard::show_diff(const vcard& right_vcard) const
 {
-  diff::stream() << diff::header << id() << diff::endl;
+  diff::stream() << diff::header(id(), right_vcard.id());
 
   const fields_t& left = _fields;
   const fields_t& right = right_vcard._fields;
