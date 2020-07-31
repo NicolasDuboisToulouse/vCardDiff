@@ -25,11 +25,11 @@ void vcard::vcard::show_diff(const vcard& right_vcard) const
 {
   diff::stream() << diff::header << id() << diff::endl;
 
-  fields_t left = _fields;
-  fields_t right = right_vcard._fields;
+  const fields_t& left = _fields;
+  const fields_t& right = right_vcard._fields;
 
-  fields_t::iterator ileft = left.begin();
-  fields_t::iterator iright = right.begin();
+  fields_t::const_iterator ileft = left.begin();
+  fields_t::const_iterator iright = right.begin();
   while (ileft != left.end() && iright != right.end()) {
     if (*ileft < *iright) {
       diff::stream() << diff::left << *ileft << diff::endl;
