@@ -3,12 +3,15 @@
 //
 #pragma once
 #include <iostream>
+#include <sstream>
 
 namespace vcard
 {
   // Diplay diff 'lines' with appropriate prefix.
   // diff::left, diff::right, diff::same begin a line. diff::endl end a line.
   // new lines (std::endl) are supported in diff 'lines'.
+  // If no diffirences (no call to left or right), nothing is displayed.
+  // else, everithing is displayed (including header and all same).
   struct diff : public std::ostream, protected std::streambuf
   {
     static diff& stream();
@@ -30,6 +33,7 @@ namespace vcard
   protected:
     diff() : std::ostream(this) {}
     int overflow(int c) override;
+    std::stringbuf _buffer;
   };
 
   std::ostream& operator<<(std::ostream& os, const diff::header& h);
