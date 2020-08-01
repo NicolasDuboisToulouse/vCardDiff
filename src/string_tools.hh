@@ -11,6 +11,9 @@ namespace vcard {
   // Look for needle in haystack regadless case
   bool find_no_case(std::string haystack, std::string needle);
 
-  // decode 'quoted-printable' string
+  // check if vcard key math expected one. (regardless case and attribute)
+  bool is_key(const std::string& key, const std::string& expected);
+
+  // decode 'quoted-printable' string (do not handle encoding)
   std::string unquoted_printable(std::string quoted);
 }
