@@ -70,7 +70,8 @@ vcard::address_book vcard::address_book::import(std::string filepath)
             inside_vard = true;
           } else if (field_line == "END:VCARD") {
             if (inside_vard == false) throw exception("Unexpected END:VCARD outside a VCARD.");
-            book->_book.push_back(card);
+            book->_book.push_back(std::move(card));
+            card.clear();
             inside_vard = false;
           } else if (inside_vard == false) {
             throw exception("Undexpected content outside a VCARD.");
