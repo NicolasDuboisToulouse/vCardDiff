@@ -102,3 +102,42 @@ std::string vcard::unquoted_printable(std::string quoted)
 
   return result;
 }
+
+
+// Remove useless spaces and ';' from name. Optionally decode 'quoted-printable'.
+std::string vcard::format_name(std::string name, bool unquote)
+{
+  if (unquote) {
+    name = unquoted_printable(name);
+  }
+
+  std::string result;
+  const std::string spaces = "; \t";
+
+  auto nch = name.find_first_not_of(spaces);
+  auto lch = nch;
+  for(; nch != name.size(); nch++) {
+    if (spaces.find(name[nch]) == std::string::npos) {
+      if (nch != lch) result += ' ';
+      result += name[nch];
+      lch = nch + 1;
+    }
+  }
+
+  return result;
+}
+
+
+// Convert a tel number to local number-only tel number
+std::string vcard::format_tel(std::string tel)
+{
+  const std::string chars = " ()-\t.";
+
+  tel.erase(std::remove_if(tel.begin(), tel.end(),
+                           [&](unsigned char ch) { return chars.find(ch) != std::string::npos; }
+              ), tel.end());
+
+  if (tel.rfind("+33", 0) == 0) tel = '0' + tel.substr(3);  // This works only for french numbers
+
+  return tel;
+}

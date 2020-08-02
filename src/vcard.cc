@@ -20,6 +20,70 @@ void vcard::vcard::insert(const key_t& key, const value_t& value)
 }
 
 
+// Identify vcard
+std::string vcard::vcard::id() const
+{
+  std::string result;
+
+  std::list<std::string> keys = { "FN", "N", "NICKNAME" };
+  for (auto ik = keys.begin(); ik != keys.end(); ik++) {
+    fields_t::const_iterator ifield = _fields.find(*ik);
+    if (ifield != _fields.end()) {
+      result = ifield->second;
+      std::replace(result.begin(), result.end(), ';', ' ');
+      break;
+    }
+  }
+
+  fields_t::const_iterator ifield = _fields.find("UID");
+  if (ifield != _fields.end()) {
+    if (result.empty() == false) result += " UID:";
+    result += ifield->second;
+  }
+
+  if (result.empty() == false) return result;
+  return "???";
+}
+
+
+// Return all the UIDs. May be empty.
+vcard::vcard::values_t vcard::vcard::uids() const
+{
+  values_t result;
+  for (auto ifield = _fields.begin(); ifield != _fields.end(); ifield++) {
+    if (is_key(ifield->first, "UID")) result.push_back(ifield->second);
+  }
+  return result;
+}
+
+// Return strings that may represent full name of the card. May be empty.
+vcard::vcard::values_t vcard::vcard::names() const
+{
+  values_t result;
+  const std::list<std::string> name_keys = { "FN", "N", "NICKNAME" };
+  for (auto ifield = _fields.begin(); ifield != _fields.end(); ifield++) {
+    for (auto key : name_keys) {
+      if (is_key(ifield->first, key)) {
+        std::string name = format_name(ifield->second, find_no_case(ifield->first, "ENCODING=QUOTED-PRINTABLE"));
+        result.push_back(name);
+      }
+    }
+  }
+  return result;
+}
+
+// Return all the TELs. May be empty.
+vcard::vcard::values_t vcard::vcard::tels() const
+{
+  values_t result;
+  for (auto ifield = _fields.begin(); ifield != _fields.end(); ifield++) {
+    if (is_key(ifield->first, "TEL")) result.push_back(format_tel(ifield->second));
+  }
+  return result;
+}
+
+
+
 // Display the diff
 void vcard::vcard::show_diff(const vcard& right_vcard) const
 {
@@ -44,31 +108,6 @@ void vcard::vcard::show_diff(const vcard& right_vcard) const
       iright++;
     }
   }
-}
-
-// Identify vcard
-std::string vcard::vcard::id() const
-{
-  std::string result;
-
-  std::list<std::string> keys = { "FN", "N", "NICKNAME" };
-  for (auto ik = keys.begin(); ik != keys.end(); ik++) {
-    fields_t::const_iterator ifield = _fields.find(*ik);
-    if (ifield != _fields.end()) {
-      result = ifield->second;
-      std::replace(result.begin(), result.end(), ';', ' ');
-      break;
-    }
-  }
-
-  fields_t::const_iterator ifield = _fields.find("UID");
-  if (ifield != _fields.end()) {
-    if (result.empty() == false) result += " UID:";
-    result += ifield->second;
-  }
-
-  if (result.empty() == false) return result;
-  return "???";
 }
 
 

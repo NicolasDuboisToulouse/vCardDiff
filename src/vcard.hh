@@ -4,6 +4,7 @@
 #pragma once
 #include <string>
 #include <map>
+#include <list>
 
 namespace vcard {
 
@@ -16,14 +17,27 @@ namespace vcard {
     typedef std::string                      value_t;
     typedef std::pair<const key_t, value_t>  field_t;
     typedef std::multimap<key_t, value_t>    fields_t;
+    typedef std::list<value_t>               values_t;
 
-    inline void clear() { _fields.clear(); }
 
     // Insert an element sorted both by key and value
     void insert(const key_t& key, const value_t& value);
 
-    // Try to build a string to identify the vcard (for display purpose)
+    //
+    inline void clear() { _fields.clear(); }
+
+    // Build a string to identify the vcard for display purpose
     std::string id() const;
+
+    // Return all the UIDs. May be empty.
+    values_t uids() const;
+
+    // Return strings that may represent full name of the card. May be empty.
+    values_t names() const;
+
+    // Return all the TELs. May be empty.
+    values_t tels() const;
+
 
     // Display diff with another vcard
     void show_diff(const vcard& right_vcard) const;
@@ -32,7 +46,7 @@ namespace vcard {
     friend std::ostream& operator<<(std::ostream& os, const field_t& v);
     friend std::ostream& operator<<(std::ostream& os, const vcard& v);
 
-    protected:
+  protected:
     fields_t _fields;
   };
 
