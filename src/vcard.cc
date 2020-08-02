@@ -108,6 +108,8 @@ void vcard::vcard::show_diff(const vcard& right_vcard) const
       iright++;
     }
   }
+  for (; ileft != left.end(); ileft++) diff::stream() << diff::left << *ileft << diff::endl;
+  for (; iright != right.end(); iright++) diff::stream() << diff::right << *iright << diff::endl;
 }
 
 
