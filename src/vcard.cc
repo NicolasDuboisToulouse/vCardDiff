@@ -23,17 +23,17 @@ void vcard::vcard::insert(const key_t& key, const value_t& value)
 // Identify vcard
 std::string vcard::vcard::id() const
 {
-  std::string result;
-
-  std::list<std::string> keys = { "FN", "N", "NICKNAME" };
-  for (auto ik = keys.begin(); ik != keys.end(); ik++) {
-    fields_t::const_iterator ifield = _fields.find(*ik);
-    if (ifield != _fields.end()) {
-      result = ifield->second;
-      std::replace(result.begin(), result.end(), ';', ' ');
-      break;
+  std::string result = [&]() {
+    std::list<std::string> keys = { "FN", "N", "NICKNAME" };
+    for (auto key : keys) {
+      for (auto ifield = _fields.begin(); ifield != _fields.end(); ifield++) {
+        if (is_key(ifield->first, key)) {
+        return format_name(ifield->second, find_no_case(ifield->first, "ENCODING=QUOTED-PRINTABLE"));
+        }
+      }
     }
-  }
+    return std::string();
+  } ();
 
   fields_t::const_iterator ifield = _fields.find("UID");
   if (ifield != _fields.end()) {
